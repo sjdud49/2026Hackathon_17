@@ -1,4 +1,4 @@
-# 찻당 프론트엔드
+# 찾당 프론트엔드
 
 매장에서 바코드나 성분표를 찍으면 몇 초 안에 **'저당·제로' 표시와 실제 혈당 부담의 차이**를 보여주는 모바일 웹.
 React (Vite) + react-router + html5-qrcode. 백엔드: `sjdud49/2026Hackathon_17` 의 `backend/` (FastAPI).
@@ -72,9 +72,3 @@ npm run build      # dist/
 ## mock 데이터
 `src/mock/mock.json` = 백엔드(11/13 커밋) `data.load()` 결과 스냅샷 557개. 백엔드 데이터가 바뀌면 다시 뽑아야 해요.
 mock 사진 분석은 가상 예시 '제로 포도 젤리 (가상 제품)'를 돌려줘요. 바코드 `9999999999999` 네트워크 오류, `0000000000000` 서버 오류.
-
-## 배포 (Vercel)
-1. 이 폴더를 GitHub에 올리고 Vercel → New Project
-2. Environment Variables: `VITE_API_BASE_URL=https://chatdang-backend.onrender.com`
-3. 배포 주소를 백엔드 `ALLOWED_ORIGINS`에 추가 (지금은 `*`라 바로 됨)
-4. 휴대폰에서 카메라 권한 확인 (HTTPS 필요)

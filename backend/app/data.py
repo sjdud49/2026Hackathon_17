@@ -45,7 +45,7 @@ def _normalize(p):
     p["per100g"] = {"carb": n.get("carb"), "sugar": n.get("sugar"), "fiber": n.get("fiber"),
                     "sweeteners": {k: v for k, v in (n.get("sweeteners") or {}).items() if v is not None}}
     p.setdefault("servingSize", {})
-    if p.get("source") == "photo_ai":
+    if p.get("source") == "photo_ai" and (p.get("servingSize") or {}).get("basis") != "serving":
         p["servingSize"] = {}          # 사진의 '총 내용량'이 1회 섭취량으로 잡히는 것 방지 → 식약처 기준표 사용
     p["nutritionSource"] = "label" if p["per100g"]["carb"] is not None else None
     if p["nutritionSource"] and p.get("source") == "photo_ai":
@@ -110,6 +110,9 @@ def _apply_verified():
             continue
         sw = {k: v[k] for k in ("allulose", "sugar_alcohol") if v.get(k) is not None}
         p["per100g"] = {"carb": v.get("carb"), "sugar": v.get("sugar"), "fiber": v.get("fiber"), "sweeteners": sw}
+        if v.get("ingredients"):   # 원본 사진에서 확인한 원재료 (AI가 놓친 경우 채움)
+            p["ingredients"] = [x.split("(")[0] for x in v["ingredients"]]
+            p["ingredientsFlat"] = [y.strip(") ") for x in v["ingredients"] for y in x.replace("(", ",").split(",") if y.strip(") ")]
         p["nutritionSource"] = "verified"
         p["verifiedNote"] = v.get("note", "")
         n += 1
